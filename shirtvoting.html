@@ -1,0 +1,131 @@
+<!-- @depends _header.html -->
+
+<h1> VIS Student Volunteer T-Shirt Contest Voting</h1>
+
+<p>Click for larger images.</p>
+
+<div style="width: 400px; float: left;">
+  <a href="img/Perspective1536.jpg" style="color: #0000FF">
+    <img src="img/Perspective400.jpg" border="1">
+  </a>
+  <br>
+  <center>
+    <b>Perspective</b>
+  </center>
+  The T-shirt front's design:
+  <ul>
+    <li>The T-shirts colors are inspired by Maryland's flag.</li>
+    <li>The design is built on John Snow's iconic visualization.</li>
+    <li>The silhouette of the infected area forms the word "DATA"...
+      <i>"Discover the unexpected."</i> ~ Visual analytics.</li>
+  </ul>
+  The T-shirt back's design:
+  <ul>
+    <li>The design shows a normal distribution with projected shadow...
+      <i>"Sometimes it is obvious, but the projection is interesting."</i>
+    </li>
+    <li>The VIS logo has a projection in the 3rd dimension...
+      <i>"3rd dimension can make a difference"</i>.
+    </li>
+    <li>The student volunteer banner starts with the Washington Monument in Baltimore.</li>
+  </ul>
+</div>
+<div style="margin-left: 410px;">
+  <a href="img/FlowingAtVIS1536.jpg" style="color: #0000FF">
+    <img src="img/FlowingAtVIS400.jpg" border="1">
+  </a>
+  <br>
+  <center>
+    <b>Flowing at VIS</b>
+  </center>
+  <p>VIS is the place where our visualization community meets each year. During the conference we flow together; sharing science,
+    meeting friends, collaborating, and having fun. This design is based on the colors of the logo this year. Parts of the
+    logo can be seen as particles or bubbles of water flowing to form the VIS logo. This also refers to the National Aquarium
+    in Baltimore which has transparent water-filled tubes in the lobby with bubbles going through them. Moreover, each of
+    these particles represents each member of our community that comes together to meet at VIS to consolidate and share their
+    research, achievements, and experiences.</p>
+</div>
+
+<center>
+
+  <div class='row' id='vote-box'>
+    <div class='small-12 columns' id='vote-precheck'>
+      <h3>Checking...</h3>
+    </div>
+
+    <div class='small-12 columns' id='vote-form' style='display: none;'>
+      <form id="TShirtVote" method="post" action="http://localhost:1337/tshirt/vote" data-parsely-validate>
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p>
+            <i class="fi-alert"></i> There are some errors in your form.</p>
+          <p id='additional-error'>
+          </p>
+        </div>
+
+        <div class='row'>
+          <fieldset class='large-12 columns'>
+            <legend>Vote:</legend>
+            <input id='vote-0' name='votes[]' type='checkbox' value='0' required>
+            <label for='vote-0'>Perspective</label>
+            <input id='vote-1' name='votes[]' type='checkbox' value='1'>
+            <label for='vote-1'>Flowing at VIS</label>
+          </fieldset>
+        </div>
+
+        <div class='row'>
+          <div class='small-12 columns'>
+            <button class='button' type='submit' value='Submit'>Submit</button>
+          </div>
+          <!--
+        <div class='small-6 columns'>
+          <button class='button' type='reset' value='Reset'>Reset</button>
+        </div>
+        -->
+        </div>
+
+      </form>
+
+      <div>
+        <small>
+          You may vote for one or more of the finalists. You may even vote for all of them to show your support. One vote submissions
+          per person please. This site uses a cookie to prevent accidental double-voting.
+        </small>
+      </div>
+    </div>
+
+    <div class='small-12 columns' id='voted-msg' style='display: none;'>
+      <h3>You have already voted.</h3>
+      <p>If this is in error please email the chairs</p>
+    </div>
+</center>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    $.getJSON('http://localhost:1337/tshirt/hasvoted', function (data) {
+      $('#vote-precheck').hide();
+      if (!data.hasVoted) {
+        $('#vote-form').show();
+      } else {
+        $('#voted-msg').show();
+      }
+    });
+
+    $('form').parsley();
+
+    $(document).on('submit', function (ev) {
+      ev.preventDefault();
+      var formData = $(ev.target).serialize();
+      $.post(ev.target.action, formData, function (res) {
+        console.log(res);
+        // redirect to the success page
+        window.location = '/shirtvoted.html';
+      }).fail(function (err) {
+        var errDiv = $(ev.target).find('.alert.callout').first();
+        $('#additional-error').text(err.responseText);
+        errDiv.show();
+      });
+    });
+  });
+</script>
+
+<!-- @depends _footer.html -->

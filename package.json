@@ -1,0 +1,27 @@
+{
+  "name": "ieeevis-sv-site",
+  "version": "1.0.0",
+  "description": "This contains the static files for the vissv.org site.",
+  "scripts": {
+    "test": "blcl dist -ro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VisSV/static-site.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VisSV/static-site/issues"
+  },
+  "homepage": "https://github.com/VisSV/static-site#readme",
+  "devDependencies": {
+    "fuse": "^0.4.0",
+    "node-sass": "^4.1.1"
+  },
+  "dependencies": {
+    "broken-link-checker-local": "^0.1.1",
+    "jquery": "^3.2.1",
+    "parsleyjs": "^2.6.2"
+  }
+}
